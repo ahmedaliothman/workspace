@@ -10,3 +10,12 @@ export enum Steps {
     TermsAndConditions = 4,
     RequestSent = 5
 }
+
+
+export enum StatusType {
+    	Approved=1,
+    	Rejected=2,
+    	Return=3,
+    	Pending=5,
+    	Creation=6,
+}

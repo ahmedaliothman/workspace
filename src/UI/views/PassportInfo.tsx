@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import Layout from "../components/Layout";
 import ReactDatePicker from "react-datepicker";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select';
 import { useForm, Controller } from "react-hook-form";
@@ -48,6 +49,7 @@ const PassportInfo = () => {
   const stateData = useSelector<RootState,RootState["passportInfo"]>(state => state.passportInfo);
   const {Nationalities} = LookUpState;
   const { userInfo } = loginData;
+  const [startDate, setStartDate] = useState(new Date());
 
   let dispatch = useDispatch();
   const { register, handleSubmit, watch, errors,setValue, getValues,control } = useForm<IFormData>({
@@ -57,6 +59,8 @@ const PassportInfo = () => {
 
     }
   });
+
+  console.log("errors",errors);
   useEffect(() => {
     const GetDropdownValues = async () => {
       if (Nationalities === undefined) {
@@ -166,9 +170,13 @@ const PassportInfo = () => {
                                   name="selectedNationality"
                                   control={control}
                                   placeholder=" اختر الادار  "
+                                  rules={{
+                                    required: true  }}
                                   options={Nationalities}
                                   as={Select}
                                 />
+                                      {errors?.selectedNationality !==undefined && 
+                                 <span className="text-danger">IssueCountry is required</span>  }
                             </div>
                           </div>
                           {/* ################### form- row-003 #################*/}
@@ -176,7 +184,9 @@ const PassportInfo = () => {
                             <label  className="col-sm-3 col-form-label">رقم الجواز</label>
                             <div className="col-sm-3">
                               <input type="text" className="form-control form-control-user"  
-                              name="passportNumber" ref={register} />
+                              name="passportNumber"  ref={register({ required: true})} />
+                                 {errors?.passportNumber?.type==="required" && 
+                                 <span className="text-danger">PassportNumber is required</span>  }
                             </div>
                             <label  className="col-sm-3 col-form-label">مكان الاصدار</label>
                             <div className="col-sm-3">
@@ -186,8 +196,12 @@ const PassportInfo = () => {
                                   control={control}
                                   placeholder=" اختر الادار  "
                                   options={Nationalities}
+                                  rules={{
+                                    required: true  }}
                                   as={Select}
                                 />
+                                 {errors?.selectedIssueCountry !==undefined && 
+                                 <span className="text-danger">IssueCountry is required</span>  }
                             </div>
                           </div>
                           {/* ################### form- row-004 #################*/}
@@ -197,17 +211,23 @@ const PassportInfo = () => {
                             <Controller
                                   control={control}
                                   name="issueDate"
+                                  rules={{
+                                    required: true  }}
                                   render={({ onChange, onBlur, value }) => (
                                     <ReactDatePicker
                                       onChange={onChange}
+                                      maxDate={new Date()}
                                       onBlur={onBlur}
                                       selected={value}
                                       dateFormat="dd/MM/yyyy"
                                       placeholderText="dd/MM/yyyy "   
                                       className="form-control form-control-user"
                                     />
+                     
                                   )}
                                 />
+                                {errors?.issueDate !==undefined && 
+                                 <span className="text-danger">Issue Date is required</span>  }
 
                             </div>
                             <label  className="col-sm-3 col-form-label">تاريخ الانتهاء</label>
@@ -215,9 +235,12 @@ const PassportInfo = () => {
                             <Controller
                                   control={control}
                                   name="expiryDate"
+                                  rules={{
+                                    required: true  }}
                                   render={({ onChange, onBlur, value }) => (
                                     <ReactDatePicker
                                       onChange={onChange}
+                                      maxDate={new Date()}
                                       onBlur={onBlur}
                                       selected={value}
                                       dateFormat="dd/MM/yyyy"
@@ -226,6 +249,8 @@ const PassportInfo = () => {
                                     />
                                   )}
                                 />
+                                {errors?.expiryDate !==undefined && 
+                                 <span className="text-danger">Expiry Date is required</span>  }
                             </div>
                            
                           </div>
@@ -234,17 +259,22 @@ const PassportInfo = () => {
                             <label  className="col-sm-3 col-form-label">عنوان السكن</label>
                             <div className="col-sm-3">
                               <input type="text" className="form-control form-control-user"  
-                              name="address" ref={register} />
+                              name="address" ref={register({ required: true})} />
+                                   {errors?.address?.type==="required" && 
+                                 <span className="text-danger">PassportNumber is required</span>  }
                             </div>
                             <label  className="col-sm-3 col-form-label">تاريخ انتهاء الاقامة</label>
                             <div className="col-sm-3">
                             <Controller
                                   control={control}
                                   name="residencyExpiryDate"
+                                  rules={{
+                                    required: true  }}
                                   render={({ onChange, onBlur, value }) => (
                                     <ReactDatePicker
                                       onChange={onChange}
                                       onBlur={onBlur}
+                                      maxDate={new Date()}
                                       selected={value}
                                       dateFormat="dd/MM/yyyy"
                                       placeholderText="dd/MM/yyyy "   
@@ -252,6 +282,8 @@ const PassportInfo = () => {
                                     />
                                   )}
                                 />
+                                    {errors?.residencyExpiryDate !==undefined && 
+                                 <span className="text-danger">Expiry Date is required</span>  }
                             </div>
                           </div>
                           {/* ################### form- row-006 #################*/}

@@ -13,9 +13,14 @@ export interface IStateApp {
 
 
 
-export const ClearRequst = 'NEWAPP/CLEAR';
-export interface ClearActionType {
+export const ClearRequst = 'NEWAPP/CLEARREQUEST';
+export interface ClearRequstActionType {
     type: typeof ClearRequst
+}
+
+export const Clear = 'NEWAPP/CLEAR';
+export interface ClearActionType {
+    type: typeof Clear
 }
 
 
@@ -82,7 +87,7 @@ export interface UpdateSuccessActionType {
 
 export type NewAppActionsTypes =CreateRequestActionType|CreateSuccessActionType|
                                 FetchIncompleteActionType|IncompleteFetchSuccessActionType|
-                                UpdateActionType|UpdateSuccessActionType|LoadingActionType;
+                                UpdateActionType|UpdateSuccessActionType|LoadingActionType|ClearActionType|ClearRequstActionType;
 
 
 

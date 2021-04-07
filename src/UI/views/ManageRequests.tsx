@@ -55,7 +55,7 @@ let columnsBootStrap_: columnsBootStrap={columns:[],data:null};
     ,
     {
         text: "تعديل",
-        formatter:(row:any,cell:any) => <button className="btn btn-warning btn-sm  rounded-circle" disabled={cell.isActive}  onClick={()=>handleRowFunctionsref.current?.EditRow(cell)} ><i className="fas fa-edit"aria-hidden="true"/></button>
+        formatter:(row:any,cell:any) => <button className="btn btn-warning btn-sm  rounded-circle" disabled={!cell.isActive}  onClick={()=>handleRowFunctionsref.current?.EditRow(cell)} ><i className="fas fa-edit"aria-hidden="true"/></button>
     }
 
   ];

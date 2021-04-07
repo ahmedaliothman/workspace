@@ -7,6 +7,19 @@ export const getCreateRequest = (data:NewAppTypes.IState):NewAppTypes.CreateRequ
     }
 }
 
+
+export const RequestClearRequest = ():NewAppTypes.ClearRequstActionType=>{
+    return {
+        type:NewAppTypes.ClearRequst
+    }
+}
+
+export const ClearRequest = ():NewAppTypes.ClearActionType=>{
+    return {
+        type:NewAppTypes.Clear
+    }
+}
+
 export const RequestloadingRequest = (data : boolean):NewAppTypes.RequestLoadingActionType=>{
     return {
         type:NewAppTypes.RequestLoading,

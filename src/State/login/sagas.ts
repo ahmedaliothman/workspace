@@ -27,6 +27,7 @@ function* onLoginRequest({ type, payload  }: actionTypes.login_request_action_ty
 
        
     } catch (error) {
+      yield put(setLoading(false));
 
     }
   }

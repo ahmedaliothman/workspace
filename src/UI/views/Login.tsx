@@ -7,7 +7,8 @@ import { getLocalStorage } from "../../Services/utils/localStorageHelper";
 import Layout from "../components/Layout";
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from '../../State/rootReducer';
-import {getloginRequest} from "../../State/login"
+import {getloginRequest} from "../../State/login";
+import {RequestClearRequest} from "../../State/newApp";
 
 const Login = () => {
 	let userAuth = getLocalStorage("user", authenticateResponse);
@@ -33,12 +34,13 @@ const Login = () => {
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		dispatch(getloginRequest({username,password}));
-		
+	    dispatch(RequestClearRequest());
+
+	
 		
 
 		/*if (username.trim() === "" || password.trim() === "") {
 			setIsFieldEmpty(true);
-
 			return;
 		}
 		setLoading(true);

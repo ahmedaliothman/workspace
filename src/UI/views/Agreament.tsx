@@ -3,8 +3,9 @@ import { useHistory } from "react-router-dom";
 import { useSelector,useDispatch} from "react-redux";
 import  {RootState} from "../../State/rootReducer"
 import auth from "../../auth/auth";
-import { Steps } from "../../types/Enums";
+import { Steps ,StatusType} from "../../types/Enums";
 import {  getUpdateRequest} from "../../State/newApp/action";
+import {ClearRequest} from "../../State/newApp"
 
 
 
@@ -17,9 +18,10 @@ const Agreament = () => {
     const onSubmit =(e:React.SyntheticEvent)=>{
         e.preventDefault();
         IState.stepNo =Steps.RequestSent;
-        IState.applicationStatusId=5;
+        IState.applicationStatusId=StatusType.Pending;
         console.log(IState);
         dispatch(getUpdateRequest(IState));
+        dispatch(ClearRequest());
         history.push("/result");
     }
 	return (

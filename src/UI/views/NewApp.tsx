@@ -5,9 +5,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from '../../State/rootReducer';
 import {getAppTypesRequest} from "../../State/lookUps";
 import {SelectOptions} from '../../types/UIRelated';
-import { useHistory } from "react-router-dom";
+import { useHistory ,useParams} from "react-router-dom";
 import {getCreateRequest,getFetchIncompleteRequest,getUpdateRequest,getUserApplicationsByApplicationNumber} from "../../State/newApp";
-import {Steps} from "../../types/Enums"
+import {Steps,StatusType} from "../../types/Enums"
 import {INewAppState} from '../../types/newApp'
 
 
@@ -19,22 +19,26 @@ const NewApp: React.FunctionComponent<INewAppState> =() => {
   const newAppState = useSelector<RootState,RootState["newApp"]>(state => state.newApp);
   const userData = useSelector<RootState,RootState["login"]>(state => state.login);
   const [appType, setappType] = useState<SelectOptions|undefined>({label:"",value:""});
+  const [labelName,setLablelName]=useState<string>("");
   const history = useHistory();
-
+  const param=useParams();
   const {AppTypes} = LookUpState;
   let dispatch = useDispatch();
 
   useEffect(() => {
-
-      if ((newAppState.IState.applicationNumber===undefined || newAppState.IState.applicationTypeId!=5) && newAppState.isloading==false )
-      {
-        dispatch(getFetchIncompleteRequest(userData.userInfo?.userId as number));
+       if (newAppState.IState.applicationNumber===undefined && newAppState.isloading==false )
+       {
+          dispatch(getFetchIncompleteRequest(userData.userInfo?.userId as number));
+       }
+       if ( newAppState.IState.applicationStatusId==StatusType.Creation && newAppState.isloading==false )
+       {
+         setLablelName("  استكمال اخر  معاملة ");
       }
-      else {
-        console.log("newApp state is exists",newAppState.IState.applicationTypeId);
-      }
+       else 
+       {
+         setLablelName("  بدء معاملة جديدة");
+       }
   
-
     const GetDropdownValues = async () => {
       if (AppTypes === undefined) {
         dispatch(getAppTypesRequest());
@@ -46,15 +50,18 @@ const NewApp: React.FunctionComponent<INewAppState> =() => {
 
   useEffect(() => {
     console.log("in useEffect newAppState.applicationTypeId,AppTypes");
-   let selectedObj = AppTypes?.find(a=>a.value===newAppState.IState.applicationTypeId?.toString());
-     setappType(selectedObj);
+    if ( newAppState.IState.applicationStatusId==StatusType.Creation)
+    {
+      let selectedObj = AppTypes?.find(a=>a.value===newAppState.IState.applicationTypeId?.toString());
+      setappType(selectedObj);
+    }
+   
 
     return () => {
     }
   }, [newAppState.IState.applicationTypeId,AppTypes]);
 
   
-
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		 e.preventDefault();
      newAppState.IState.applicationTypeId = Number(appType?.value);
@@ -64,7 +71,7 @@ const NewApp: React.FunctionComponent<INewAppState> =() => {
       newAppState.IState.userId=userData.userInfo?.userId;
       newAppState.IState.isActive=false;
       newAppState.IState.stepNo=Steps.CreateApp;
-      newAppState.IState.applicationStatusId=1;
+      newAppState.IState.applicationStatusId=StatusType.Creation;
       newAppState.IState.remark="ss";
       dispatch(getCreateRequest(newAppState.IState));
      }
@@ -105,20 +112,20 @@ const NewApp: React.FunctionComponent<INewAppState> =() => {
                       <div className="p-5">
                         <form className="user" onSubmit={handleSubmit}>
                           <div className="form-group">
-                            <input type="email" className="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="ادخل رقم الموظف " />
+                            <input type="email" className="form-control form-control-user" id="exampleInputEmail" disabled={true} aria-describedby="emailHelp" placeholder="اختر نوع المعامله " />
                           </div>
                           <div className="form-group">
                            
                             <Select 
                              name="AppType" 
-                             placeholder=" Choose App Type "
+                             placeholder="اختر نوع المعاملة "
                              options={AppTypes}
                              value= {appType}
                              onChange={handleAppTypeChange}
                               />
                           </div>
                           <div className="row justify-content-center"> <button type="submit" className="btn btn-primary btn-user  shorooq " style={{fontSize: '22px'}}>
-                              بدء معاملة جديدة
+                           {labelName}
                             </button>
                           </div>
                         </form>

@@ -38,7 +38,7 @@ function App() {
 						<Route exact path="/register" component={Register} />
 						<Route exact path="/TestRBwithRHF" component={TestRBwithRHF} />
 					////// Client Route 
-      					<ProtectedRoute exact path="/" component={Home} />
+      					<ProtectedRoute exact path="/" component={NewApp} />
 						<ProtectedRoute exact path="/newApp" component={NewApp} />
 						<ProtectedRoute exact path="/personalInfo" component={PersonalInfo} />
 						<ProtectedRoute exact path="/passportInfo" component={PassportInfo} />

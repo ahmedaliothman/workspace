@@ -4,6 +4,7 @@ import { authenticateResponse } from '../../types/userInfo';
 import { getLocalStorage } from '../../Services/utils/localStorageHelper';
 import { useDispatch } from 'react-redux';
 import {getllogout} from "../../State/login"
+import {ClearRequest} from "../../State/newApp"
 
 
 
@@ -16,6 +17,7 @@ const Header = () => {
   const logout = () => {
     localStorage.removeItem("user");
     dispatch(getllogout());
+    dispatch(ClearRequest());
   }
 
 

@@ -52,12 +52,23 @@ function* onLoadingAppRequest({ type,payload }: actionTypes.GetRequestActionType
     yield put(actions.loadingRequest(false));
   }
 }
+
+
+function* onClearAppRequest({ type }: actionTypes.ClearRequstActionType) {
+  try {
+    yield put(actions.ClearRequest());
+  } catch (error) {
+    yield put(actions.loadingRequest(false));
+  }
+}
+
 function* watchOnNewApp() {
   yield takeEvery(actionTypes.CreateRequest, onNewAppRequest);
   yield takeEvery(actionTypes.IncompleteFetchRequest, onIncompleteAppRequest);
   yield takeEvery(actionTypes.UpdateRequest, onUpdateAppRequest);
   yield takeEvery(actionTypes.GetRequest, onGetAppRequest);
   yield takeEvery(actionTypes.RequestLoading, onLoadingAppRequest);
+  yield takeEvery(actionTypes.ClearRequst, onClearAppRequest);
 }
 
 export default function* newAppSaga() {

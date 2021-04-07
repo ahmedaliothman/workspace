@@ -19,17 +19,17 @@ type TempFormData = {
 }
 
 function FileAttachments() {
-    const LookUpState = useSelector<RootState, RootState["lookUp"]>(state => state.lookUp);
     const newAppState = useSelector<RootState, RootState["newApp"]>(state => state.newApp);
     const loginData = useSelector<RootState, RootState["login"]>(state => state.login);
     const stateData = useSelector<RootState,RootState["attachmentInfo"]>(state => state.attachmentInfo);
     const { register, handleSubmit, watch, errors, setValue, getValues, control } = useForm<IState>();
+    const history = useHistory();
     const {userInfo} = loginData;
-    const [removeletter, setRemoveletter] = useState(false);
-    const [removeSalary, setremoveSalary] = useState(false);
-    const [removeCivilId, setremoveCivilId] = useState(false);
-    const [removePassport, setremovePassport] = useState(false);
-    const [removeOtherDocs, setRemoveOtherDocs] = useState(false);
+    const [removeletter, setRemoveletter] = useState(true);
+    const [removeSalary, setremoveSalary] = useState(true);
+    const [removeCivilId, setremoveCivilId] = useState(true);
+    const [removePassport, setremovePassport] = useState(true);
+    const [removeOtherDocs, setRemoveOtherDocs] = useState(true);
 
     let dispatch = useDispatch();
 
@@ -48,8 +48,9 @@ function FileAttachments() {
       }, [newAppState.IState.stepNo]);
 
       useEffect(() => {
-        console.log("in useeffect/newAppState.stepNo out");
-       if (stateData.approvedLetterForResidencyRenewal) setRemoveletter(false);
+          console.log("in use Effec t");
+       if (stateData.approvedLetterForResidencyRenewal)
+       {console.log("approvedLetterForResidencyRenewal");setRemoveletter(false);} 
        if (stateData.salaryCertification) setremoveSalary(false);
        if (stateData.civilIdCopy) setremoveCivilId(false);
        if (stateData.passportCopy) setremovePassport(false);
@@ -58,12 +59,10 @@ function FileAttachments() {
       }, [stateData]);
 
     const onSubmit = async (data: TempFormData) => {
-        console.log("formData", data);
 
         const postData: IFileAttachment = {};
         postData.ApplicationNumber = newAppState.IState.applicationNumber;
         postData.UserId = userInfo?.userId;
-
 
         if(stateData.id ===undefined ||stateData.id===0)
         {
@@ -77,6 +76,7 @@ function FileAttachments() {
           dispatch(getCreateRequest(postData));
           newAppState.IState.stepNo =Steps.Attachments;
           dispatch(getUpdateRequest(newAppState.IState));
+         
         }
        else
        {
@@ -93,13 +93,13 @@ function FileAttachments() {
          postData.OtherRelatedDocuments = data.OtherRelatedDocuments[0];
          console.log("postData",postData);
          dispatch(updateAttachment(postData));
-
+        
        }
 
-
+       history.push("/Agreament");
     }
     return (
-        <Layout>
+
             <main className="login-bg">
                 <div className="container" style={{ marginBottom: '80px' }}>
                     {/* Outer Row */}
@@ -224,7 +224,7 @@ function FileAttachments() {
                         </div>
                     </div>
                 </div></main>
-        </Layout>
+
     )
 }
 

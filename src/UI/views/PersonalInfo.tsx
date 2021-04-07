@@ -76,7 +76,7 @@ const PersonalInfo = () => {
 
   useEffect(() => {
     if (newAppState.IState.applicationNumber === undefined) {
-       dispatch(getFetchIncompleteRequest(userInfo?.userId as number));
+      history.push("/newapp");
     }
   }, []);
 

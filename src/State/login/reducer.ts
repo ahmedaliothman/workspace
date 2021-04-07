@@ -25,7 +25,7 @@ import {
          isLoading:true,
         }
         case LOGIN_SUCCESS:
-            return {
+        return {
              ...state,
              isLoggedIn:true,
              isLoading:false,
