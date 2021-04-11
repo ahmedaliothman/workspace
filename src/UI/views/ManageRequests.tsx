@@ -55,7 +55,7 @@ let columnsBootStrap_: columnsBootStrap={columns:[],data:null};
     ,
     {
         text: "تعديل",
-        formatter:(row:any,cell:any) => <button className="btn btn-warning btn-sm  rounded-circle" disabled={!cell.isActive}  onClick={()=>handleRowFunctionsref.current?.EditRow(cell)} ><i className="fas fa-edit"aria-hidden="true"/></button>
+        formatter:(row:any,cell:any) => <button className="btn btn-warning btn-sm  rounded-circle" disabled={(cell.applicationStatusId!=6 && cell.applicationStatusId!=3)}  onClick={()=>handleRowFunctionsref.current?.EditRow(cell)} ><i className="fas fa-edit"aria-hidden="true"/></button>
     }
 
   ];
@@ -67,7 +67,7 @@ let columnsBootStrap_: columnsBootStrap={columns:[],data:null};
       console.log(IRequests);
    }, []);
   return (
-    <div>
+    <div style={{marginBottom: '50%'}}>
     {userInfo?.userId != 0 && <TableBootStrap   ref={handleRowFunctionsref}  data={columnsBootStrap_.data} columns={columnsBootStrap_.columns}  />}
     {(userInfo?.userId == 0 || IRequests.length==0) && <NoData Message="لا يوجد معاملات سابقة  "/>}
     {/* {( IRequests.length !=0) && <TableBootStrap   ref={handleRowFunctionsref}  data={columnsBootStrap_.data} columns={columnsBootStrap_.columns}  />} */}

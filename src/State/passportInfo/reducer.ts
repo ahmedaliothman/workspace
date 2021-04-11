@@ -22,20 +22,40 @@ import * as Types from './types';
   export function passportInfoReducer( state:Types.IState = initialState,
     action: Types.ActionsTypes):Types.IState{
       switch (action.type) {
+
+        
+    case Types.Clear:
+      localStorage.setItem("passportInfo",JSON.stringify({...initialState}));
+
+      return {
+        ...initialState
+      }
         case Types.CreateSuccess:
-          console.log("in create success", action.payload)
+        localStorage.setItem("passportInfo", JSON.stringify({ ...action.payload }));
           return {
             ...action.payload,
           }
         case Types.FetchSuccess:
-          return {
+          localStorage.setItem("passportInfo", JSON.stringify({ ...action.payload }));
+        
+        return {
             ...action.payload,
           }
         case Types.UpdateSuccess:
-          return {
+          localStorage.setItem("passportInfo", JSON.stringify({ ...action.payload }));
+        
+        return {
             ...action.payload,
           }
         default:
+          let localStorageData:any = localStorage.getItem('passportInfo');
+          if (localStorageData) {
+              localStorageData = JSON.parse(localStorageData);
+              return {
+                  ...localStorageData
+              }
+          }
+          return state;
           return state
       }
 

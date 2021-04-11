@@ -13,7 +13,7 @@ import { assignToType} from "../../Services/utils/assignType";
 import {getCreateRequest,getFetchRequest,getUpdateRequest as updatePassportInfo} from "../../State/passportInfo";
 import {getNationalitiesRequest} from "../../State/lookUps";
 import { getFetchIncompleteRequest,getUpdateRequest } from "../../State/newApp";
-import {Steps} from "../../types/Enums"
+import {Steps,ErrorMessages} from "../../types/Enums"
 import { useHistory } from "react-router-dom";
 
 
@@ -50,6 +50,7 @@ const PassportInfo = () => {
   const {Nationalities} = LookUpState;
   const { userInfo } = loginData;
   const [startDate, setStartDate] = useState(new Date());
+  const [Direction, setDirection] = useState<string>("");
 
   let dispatch = useDispatch();
   const { register, handleSubmit, watch, errors,setValue, getValues,control } = useForm<IFormData>({
@@ -129,7 +130,14 @@ const PassportInfo = () => {
      res.id = stateData.id;
      dispatch(updatePassportInfo(res));
    }
+   if(Direction=="fwd")
+   {
    history.push("/fileAttachements");
+   }
+   else if(Direction=="bwd")
+   {
+    history.push("/personalinfo");
+   }
 
   }
     return (
@@ -176,7 +184,7 @@ const PassportInfo = () => {
                                   as={Select}
                                 />
                                       {errors?.selectedNationality !==undefined && 
-                                 <span className="text-danger">IssueCountry is required</span>  }
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                           </div>
                           {/* ################### form- row-003 #################*/}
@@ -186,7 +194,7 @@ const PassportInfo = () => {
                               <input type="text" className="form-control form-control-user"  
                               name="passportNumber"  ref={register({ required: true})} />
                                  {errors?.passportNumber?.type==="required" && 
-                                 <span className="text-danger">PassportNumber is required</span>  }
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                             <label  className="col-sm-3 col-form-label">مكان الاصدار</label>
                             <div className="col-sm-3">
@@ -201,7 +209,7 @@ const PassportInfo = () => {
                                   as={Select}
                                 />
                                  {errors?.selectedIssueCountry !==undefined && 
-                                 <span className="text-danger">IssueCountry is required</span>  }
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                           </div>
                           {/* ################### form- row-004 #################*/}
@@ -227,7 +235,7 @@ const PassportInfo = () => {
                                   )}
                                 />
                                 {errors?.issueDate !==undefined && 
-                                 <span className="text-danger">Issue Date is required</span>  }
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
 
                             </div>
                             <label  className="col-sm-3 col-form-label">تاريخ الانتهاء</label>
@@ -250,7 +258,7 @@ const PassportInfo = () => {
                                   )}
                                 />
                                 {errors?.expiryDate !==undefined && 
-                                 <span className="text-danger">Expiry Date is required</span>  }
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                            
                           </div>
@@ -261,7 +269,7 @@ const PassportInfo = () => {
                               <input type="text" className="form-control form-control-user"  
                               name="address" ref={register({ required: true})} />
                                    {errors?.address?.type==="required" && 
-                                 <span className="text-danger">PassportNumber is required</span>  }
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                             <label  className="col-sm-3 col-form-label">تاريخ انتهاء الاقامة</label>
                             <div className="col-sm-3">
@@ -283,18 +291,23 @@ const PassportInfo = () => {
                                   )}
                                 />
                                     {errors?.residencyExpiryDate !==undefined && 
-                                 <span className="text-danger">Expiry Date is required</span>  }
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                           </div>
                           {/* ################### form- row-006 #################*/}
                           {/* ################# submit btn ##################### */}
-                          <div className="row justify-content-between">
-                             <button type="submit" className="btn btn-primary btn-user shorooq  " style={{fontSize: '22px'}}>
-                              السابق
+                          <div  className="row justify-content-between"> 
+                          <button type="submit" className="btn btn-primary btn-user shorooq  " onClick={()=> {setDirection("bwd");  }} style={{ fontSize: '22px' }}>
+                          
+                          <a   className="btn btn-primary btn-user shorooq  " style={{ fontSize: '22px' }}>
+                            السابق
+                            </a>
                             </button>
-                            <button type="submit" className="btn btn-primary btn-user shorooq  " style={{fontSize: '22px'}}>
-                              التالي
-                            </button >
+
+                            <button type="submit" className="btn btn-primary btn-user shorooq  " onClick={()=> {setDirection("fwd");  }} style={{ fontSize: '22px' }}>
+                            <a  className="btn btn-primary btn-user shorooq  " style={{ fontSize: '22px' }}>التالي
+                          </a>
+                            </button>
                           </div>
                           {/* ################# end submit btn ##################### */}
                         </form>
@@ -305,7 +318,8 @@ const PassportInfo = () => {
               </div>
             </div>
           </div>
-        </div></main>
+        </div>
+        </main>
        
     )
 }

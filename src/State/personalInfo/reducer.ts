@@ -21,20 +21,40 @@ const initialState: Types.IState = {
 export function personalInfoReducer(state: Types.IState = initialState,
   action: Types.NewAppActionsTypes): Types.IState {
   switch (action.type) {
+
+    case Types.Clear:
+      localStorage.setItem("personalInfo",JSON.stringify({...initialState}));
+
+      return {
+        ...initialState
+      }
+
     case Types.CreateSuccess:
-      console.log("in create success", action.payload)
+      localStorage.setItem("personalInfo", JSON.stringify({ ...action.payload }));
       return {
         ...action.payload,
       }
     case Types.FetchSuccess:
+      localStorage.setItem("personalInfo", JSON.stringify({ ...action.payload }));
+
       return {
         ...action.payload,
       }
     case Types.UpdateSuccess:
+      localStorage.setItem("personalInfo", JSON.stringify({ ...action.payload }));
+
       return {
         ...action.payload,
       }
     default:
+      let localStorageData:any = localStorage.getItem('personalInfo');
+            if (localStorageData) {
+                localStorageData = JSON.parse(localStorageData);
+                return {
+                    ...localStorageData
+                }
+            }
+            return state;
       return state
   }
 

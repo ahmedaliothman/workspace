@@ -21,7 +21,7 @@ import * as Types from './types';
 
 
       case Types.Clear:
-        localStorage.clear();
+        localStorage.setItem("newApp",JSON.stringify({...initialState}));
 
         return {
           ...initialState

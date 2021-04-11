@@ -1,4 +1,20 @@
+import { types } from "util"
 import * as Types from "./types"
+
+
+export const RequestClear=():Types.RequestClearActionType=>{
+    return{
+        type:Types.RequestClear
+    }
+}
+
+
+export const Clear=():Types.ClearActionType=>{
+    return{
+        type:Types.Clear
+    }
+}
+
 
 export const getCreateRequest = (data:Types.IState):Types.CreateRequestActionType=>{
     return {

@@ -12,7 +12,7 @@ import { assignToType } from "../../Services/utils/assignType";
 import { getCreateRequest,getFetchRequest,getUpdateRequest as personalInfoUpdate } from "../../State/personalInfo";
 import { getFetchIncompleteRequest,getUpdateRequest } from "../../State/newApp";
 import { useHistory } from "react-router-dom";
-import {Steps} from "../../types/Enums"
+import {Steps,ErrorMessages} from "../../types/Enums"
 
 
 export interface IFormData extends IState {
@@ -44,6 +44,7 @@ const PersonalInfo = () => {
   const loginData = useSelector<RootState, RootState["login"]>(state => state.login);
   const stateData = useSelector<RootState, RootState["personalInfo"]>(state => state.personalInfo);
   const { userInfo } = loginData;
+  const [Direction, setDirection] = useState<string>("");
   
   let dispatch = useDispatch();
   const { register, handleSubmit, watch, errors,setValue, getValues,control } = useForm<IFormData>({
@@ -119,8 +120,14 @@ const PersonalInfo = () => {
      res.id = stateData.id;
      dispatch(personalInfoUpdate(res));
    }
-
-    history.push("/passportInfo");
+   if(Direction=="fwd")
+   {
+     history.push("/passportInfo");
+   }
+   else if(Direction=="bwd")
+   {
+     history.push("/newApp");
+   }
   }
   return (
       <main className="login-bg">
@@ -154,12 +161,16 @@ const PersonalInfo = () => {
                             <label htmlFor="employeeNameArabic" className="col-sm-3 col-form-label">اسم الموظف-عربي</label>
                             <div className="col-sm-3">
                               <input type="text" className="form-control form-control-user"
-                                name="employeeNameArabic"  ref={register} />
+                                name="employeeNameArabic"  ref={register({required:true})} />
+                                 {errors?.employeeNameArabic?.type==="required" && 
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                             <label className="col-sm-3 col-form-label">رقم الهاتف</label>
                             <div className="col-sm-3">
                               <input type="text" className="form-control form-control-user"
-                                name="mobileNumber" ref={register} />
+                                name="mobileNumber" ref={register({required:true})} />
+                                 {errors?.mobileNumber?.type==="required" && 
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                           </div>
                           {/* ################### form- row-003 #################*/}
@@ -167,7 +178,9 @@ const PersonalInfo = () => {
                             <label className="col-sm-3 col-form-label">اسم الموظف-انجليزي</label>
                             <div className="col-sm-3">
                               <input type="text" className="form-control form-control-user"
-                                name="employeeNameEnglish" ref={register} />
+                                name="employeeNameEnglish" ref={register({required:true})} />
+                                 {errors?.employeeNameEnglish?.type==="required" && 
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                             <label className="col-sm-3 col-form-label">تاريخ الميلاد</label>
                             <div className="col-sm-3">
@@ -184,10 +197,14 @@ const PersonalInfo = () => {
                                     placeholderText="dd/MM/yyyy "
                                     className="form-control form-control-user"
                                     disabled
+                                    required={true}
                                   />
+                               
                                 )}
+                                
                               />
-
+                              {errors?.birthDate?.type==="required" && 
+                                  <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                           </div>
                           {/* ################### form- row-004 #################*/}
@@ -197,10 +214,15 @@ const PersonalInfo = () => {
                               <Controller
                                 name="selectedDept"
                                 control={control}
+                                rules={{
+                                  required: true  }}
                                 placeholder=" اختر الادار  "
                                 options={deptOptions}
                                 as={Select}
+                                
                               />
+  {errors?.selectedDept !==undefined && 
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
 
                             </div>
                             <label className="col-sm-3 col-form-label">المسمى الوظيفي</label>
@@ -208,11 +230,14 @@ const PersonalInfo = () => {
                               <Controller
                                 name="selectedJobTitle"
                                 control={control}
+                                rules={{
+                                  required: true  }}
                                 placeholder=" اختر المسمى الوظيفي  "
                                 options={jobTitleOptions}
                                 as={Select}
                               />
-
+  {errors?.selectedJobTitle !==undefined && 
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                           </div>
                           {/* ################### form- row-005 #################*/}
@@ -231,18 +256,27 @@ const PersonalInfo = () => {
                                     placeholderText="dd/MM/yyyy "
                                     className="form-control form-control-user"
                                     disabled
-                                  />
+                                required={true}
+                                    />
                                 )}
                               />
+                                 {errors?.hireDate?.type==="required" && 
+                                  <span className="text-danger">{ErrorMessages.required}</span>  }
                             </div>
                           </div>
                           {/* ################### form- row-006 #################*/}
                           {/* ################# submit btn ##################### */}
-                          <div className="row justify-content-between"> <a href="001.html" className="btn btn-primary btn-user shorooq  " style={{ fontSize: '22px' }}>
+                          <div  className="row justify-content-between"> 
+                          <button type="submit" className="btn btn-primary btn-user shorooq  " onClick={()=> {setDirection("bwd");  }} style={{ fontSize: '22px' }}>
+                          
+                          <a   className="btn btn-primary btn-user shorooq  " style={{ fontSize: '22px' }}>
                             السابق
                             </a>
-                            <button type="submit" className="btn btn-primary btn-user shorooq  " style={{ fontSize: '22px' }}>
-                              التالي
+                            </button>
+
+                            <button type="submit" className="btn btn-primary btn-user shorooq  " onClick={()=> {setDirection("fwd");  }} style={{ fontSize: '22px' }}>
+                            <a  className="btn btn-primary btn-user shorooq  " style={{ fontSize: '22px' }}>التالي
+                          </a>
                             </button>
                           </div>
                           {/* ################# end submit btn ##################### */}

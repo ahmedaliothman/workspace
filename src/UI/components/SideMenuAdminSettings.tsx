@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 
 
-const SideMenu = () => {
+const SideMenuAdmin = () => {
   return (
     <>
       <div id="layoutSidenav_nav">
@@ -60,4 +60,4 @@ const SideMenu = () => {
   );
 }
 
-export default SideMenu;
+export default SideMenuAdmin;

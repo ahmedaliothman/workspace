@@ -7,7 +7,7 @@ import {getAppTypesRequest} from "../../State/lookUps";
 import {SelectOptions} from '../../types/UIRelated';
 import { useHistory ,useParams} from "react-router-dom";
 import {getCreateRequest,getFetchIncompleteRequest,getUpdateRequest,getUserApplicationsByApplicationNumber} from "../../State/newApp";
-import {Steps,StatusType} from "../../types/Enums"
+import {Steps,StatusType,ErrorMessages} from "../../types/Enums"
 import {INewAppState} from '../../types/newApp'
 
 
@@ -30,14 +30,7 @@ const NewApp: React.FunctionComponent<INewAppState> =() => {
        {
           dispatch(getFetchIncompleteRequest(userData.userInfo?.userId as number));
        }
-       if ( newAppState.IState.applicationStatusId==StatusType.Creation && newAppState.isloading==false )
-       {
-         setLablelName("  استكمال اخر  معاملة ");
-      }
-       else 
-       {
-         setLablelName("  بدء معاملة جديدة");
-       }
+       
   
     const GetDropdownValues = async () => {
       if (AppTypes === undefined) {
@@ -50,12 +43,19 @@ const NewApp: React.FunctionComponent<INewAppState> =() => {
 
   useEffect(() => {
     console.log("in useEffect newAppState.applicationTypeId,AppTypes");
-    if ( newAppState.IState.applicationStatusId==StatusType.Creation)
+    if ( newAppState.IState.applicationStatusId==StatusType.Creation||newAppState.IState.applicationStatusId==StatusType.Return)
     {
       let selectedObj = AppTypes?.find(a=>a.value===newAppState.IState.applicationTypeId?.toString());
       setappType(selectedObj);
     }
-   
+    if (( newAppState.IState.applicationStatusId==StatusType.Creation||newAppState.IState.applicationStatusId==StatusType.Return) && newAppState.isloading==false )
+    {
+      setLablelName("  استكمال اخر  معاملة ");
+   }
+    else 
+    {
+      setLablelName("  بدء معاملة جديدة");
+    }
 
     return () => {
     }
@@ -122,7 +122,11 @@ const NewApp: React.FunctionComponent<INewAppState> =() => {
                              options={AppTypes}
                              value= {appType}
                              onChange={handleAppTypeChange}
+                             rules={{
+                              required: true  }}
                               />
+ {appType ==undefined && 
+                                 <span className="text-danger">{ErrorMessages.required}</span>  }
                           </div>
                           <div className="row justify-content-center"> <button type="submit" className="btn btn-primary btn-user  shorooq " style={{fontSize: '22px'}}>
                            {labelName}

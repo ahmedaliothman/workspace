@@ -4,6 +4,17 @@ export interface IState extends IPassportInfo{
 
 }
 
+export const RequestClear = 'PASSPORTINFO/REQUESTCLEAR';
+export interface RequestClearActionType {
+    type: typeof RequestClear
+}
+
+
+export const Clear = 'PASSPORTINFO/CLEAR';
+export interface ClearActionType {
+    type: typeof Clear
+}
+
 export const CreateRequest = 'PASSPORTINFO/CREATE';
 export interface CreateRequestActionType {
     type: typeof CreateRequest,
@@ -43,7 +54,7 @@ export interface UpdateSuccessActionType {
 
 export type ActionsTypes = CreateRequestActionType | CreateSuccessActionType |
                                     FetchActionType | FetchSuccessActionType |
-                                    UpdateActionType | UpdateSuccessActionType;
+                                    UpdateActionType | UpdateSuccessActionType|RequestClearActionType|ClearActionType;
 
 
 

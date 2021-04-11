@@ -32,7 +32,9 @@ export interface AuthState {
     isLoading:boolean,
     isLoggedIn: boolean,
     jwtToken?:string,
-    userInfo?:UserInfo
+    userInfo?:UserInfo,
+    hasError?:Boolean,
+    message?:string
   }
 
 export type LoginActionTypes = login_request_action_type|

@@ -9,7 +9,10 @@ import {useDispatch} from "react-redux";
 import PrintProvider, { Print, NoPrint } from 'react-easy-print';
 import {getUserApplicationsByApplicationNumber,loadingRequest} from "../../State/newApp"
 import { useHistory } from "react-router-dom";
-
+import {ClearRequest} from "../../State/newApp"
+import {RequestClear as RequestClearPersonalInfo} from "../../State/personalInfo"
+import {RequestClear as RequestClearPassportInfo} from "../../State/passportInfo"
+import {RequestClear as RequestClearattachmentDocuments} from "../../State/attachmentDocuments"
 
 export interface TableBootStrapTablecolumn {
 
@@ -25,7 +28,11 @@ export interface columnsBootStrap {
 export type handleRowFunctions = {
   handlePopUp: (row: any) => void,
   EditRow: (row: any) => void,
-  EditRowAdmin:(row:any) => void
+  EditRowAdmin:(row:any) => void,
+  SubmitRow:(row:any)=>void,
+  RejectRow:(row:any)=>void,
+  ReturnRow:(row:any)=>void
+
 }
 export const TableBootStrap = forwardRef<handleRowFunctions, columnsBootStrap>(({columns,data}, ref) => {
   const [show, setShow] = useState(true);
@@ -44,12 +51,32 @@ export const TableBootStrap = forwardRef<handleRowFunctions, columnsBootStrap>((
       setSelectedObject(row);
     },
     EditRow(row: any) {
-
+      dispatch(ClearRequest());
+      dispatch(RequestClearPersonalInfo());
+      dispatch(RequestClearPassportInfo());
+      dispatch(RequestClearattachmentDocuments());
       dispatch(loadingRequest(true));
       dispatch(getUserApplicationsByApplicationNumber(row.applicationNumber));
       history.push("/newapp");
     },
     EditRowAdmin(row: any) {
+
+      dispatch(loadingRequest(true));
+      dispatch(getUserApplicationsByApplicationNumber(row.applicationNumber));
+      history.push("/admin/newApp");
+    },
+    SubmitRow(row: any) {
+
+     
+      history.push("/admin/newApp");
+    },
+    RejectRow(row: any) {
+
+      dispatch(loadingRequest(true));
+      dispatch(getUserApplicationsByApplicationNumber(row.applicationNumber));
+      history.push("/admin/newApp");
+    },
+    ReturnRow(row: any) {
 
       dispatch(loadingRequest(true));
       dispatch(getUserApplicationsByApplicationNumber(row.applicationNumber));

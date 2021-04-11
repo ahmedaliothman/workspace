@@ -6,6 +6,9 @@ import auth from "../../auth/auth";
 import { Steps ,StatusType} from "../../types/Enums";
 import {  getUpdateRequest} from "../../State/newApp/action";
 import {ClearRequest} from "../../State/newApp"
+import {RequestClear as RequestClearPersonalInfo} from "../../State/personalInfo"
+import {RequestClear as RequestClearPassportInfo} from "../../State/passportInfo"
+import {RequestClear as RequestClearattachmentDocuments} from "../../State/attachmentDocuments"
 
 
 
@@ -15,14 +18,27 @@ const Agreament = () => {
     const [Enabled,setEnabled]=useState(false);
 	const {IState} =useSelector<RootState,RootState["newApp"]>(state=>state.newApp);
     const dispatch=useDispatch();
-    const onSubmit =(e:React.SyntheticEvent)=>{
+    const [Direction, setDirection] = useState<string>("");
+
+    const onSubmit =(e:React.SyntheticEvent,dir:string)=>{
         e.preventDefault();
-        IState.stepNo =Steps.RequestSent;
+        
+        if(dir=="fwd")
+        {
+          IState.stepNo =Steps.RequestSent;
         IState.applicationStatusId=StatusType.Pending;
         console.log(IState);
         dispatch(getUpdateRequest(IState));
         dispatch(ClearRequest());
+        dispatch(RequestClearPersonalInfo());
+        dispatch(RequestClearPassportInfo());
+        dispatch(RequestClearattachmentDocuments());
         history.push("/result");
+        }
+        else if(dir=="bwd")
+        {
+        history.push("/fileAttachements");
+        }
     }
 	return (
 		<>
@@ -58,10 +74,21 @@ const Agreament = () => {
                     </div>
                     {/* ################# submit btn ##################### */}
                     <div className="row justify-content-center">
-                         <button disabled={Enabled} onClick={(e)=>onSubmit(e)}  className="btn btn-primary btn-user shorooq  " style={{fontSize: 22}}>
+                         <button disabled={Enabled} onClick={(e)=> onSubmit(e,"fwd")}  className="btn btn-primary btn-user shorooq  " style={{fontSize: 22}}>
                         الموافقة
                       </button>
                     </div>
+                    <div  className="row justify-content-between"> 
+                          <button type="submit" className="btn btn-primary btn-user shorooq  "
+                           onClick={(e)=>  onSubmit(e,"bwd")} style={{ fontSize: '22px' }}>
+                          
+                          <a   className="btn btn-primary btn-user shorooq  " style={{ fontSize: '22px' }}>
+                            السابق
+                            </a>
+                            </button>
+
+                           
+                          </div>
                     {/* ################# end submit btn ##################### */}
                   </form>
                 </div>

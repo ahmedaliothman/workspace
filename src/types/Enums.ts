@@ -19,3 +19,11 @@ export enum StatusType {
     	Pending=5,
     	Creation=6,
 }
+
+
+export enum ErrorMessages {
+    required="برجاء ادخال هدا الحقل",
+     Select="برجاء الاختيار",
+    MaxWidth="المساحة القسوى المسموح بها 1 ميجا بيت",
+
+}

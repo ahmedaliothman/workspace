@@ -30,6 +30,7 @@ function FileAttachments() {
     const [removeCivilId, setremoveCivilId] = useState(true);
     const [removePassport, setremovePassport] = useState(true);
     const [removeOtherDocs, setRemoveOtherDocs] = useState(true);
+    const [Direction, setDirection] = useState<string>("");
 
     let dispatch = useDispatch();
 
@@ -95,8 +96,15 @@ function FileAttachments() {
          dispatch(updateAttachment(postData));
         
        }
-
+       if(Direction=="fwd")
+       {
        history.push("/Agreament");
+
+       }
+       else if(Direction=="bwd")
+       {
+       history.push("/passportinfo");
+       }
     }
     return (
 
@@ -206,14 +214,19 @@ function FileAttachments() {
                                                         </div>
                                                     </div>
                                                     {/* ################# submit btn ##################### */}
-                                                    <div className="row justify-content-between">
-                                                        <a href="001-002.html" className="btn btn-primary btn-user shorooq  " style={{ fontSize: '22px' }}>
-                                                            السابق
+                                                    <div  className="row justify-content-between"> 
+                          <button type="submit" className="btn btn-primary btn-user shorooq  " onClick={()=> {setDirection("bwd");  }} style={{ fontSize: '22px' }}>
+                          
+                          <a   className="btn btn-primary btn-user shorooq  " style={{ fontSize: '22px' }}>
+                            السابق
                             </a>
-                                                        <button type="submit" className="btn btn-primary btn-user shorooq  " style={{ fontSize: '22px' }}>
-                                                            التالي
                             </button>
-                                                    </div>
+
+                            <button type="submit" className="btn btn-primary btn-user shorooq  " onClick={()=> {setDirection("fwd");  }} style={{ fontSize: '22px' }}>
+                            <a  className="btn btn-primary btn-user shorooq  " style={{ fontSize: '22px' }}>التالي
+                          </a>
+                            </button>
+                          </div>
                                                     {/* ################# end submit btn ##################### */}
                                                 </form>
                                             </div>

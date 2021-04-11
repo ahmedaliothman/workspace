@@ -19,6 +19,7 @@ export class UserInfo {
     organization?: string;
     userTypeId: number = 0;
     registrationStatusId: number = 0;
+    isAdmin:boolean=false;
 }
 
 interface AuthenticateResult {

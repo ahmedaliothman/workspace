@@ -4,7 +4,26 @@ export interface IState extends IPersonalInfo{
 
 }
 
-export const CreateRequest = 'PERSONALINFO/CREATE';
+
+
+
+export const RequestClear = 'PERSONALINFO/REQUESTCLEAR';
+export interface RequestClearActionType {
+    type: typeof RequestClear
+}
+
+
+export const Clear = 'PERSONALINFO/CLEAR';
+export interface ClearActionType {
+    type: typeof Clear
+}
+
+
+
+
+
+
+export const CreateRequest = 'PERSONALINFO/CLEAR';
 export interface CreateRequestActionType {
     type: typeof CreateRequest,
     payload:IState
@@ -43,7 +62,7 @@ export interface UpdateSuccessActionType {
 
 export type NewAppActionsTypes = CreateRequestActionType | CreateSuccessActionType |
                                     FetchActionType | FetchSuccessActionType |
-                                    UpdateActionType | UpdateSuccessActionType;
+                                    UpdateActionType | UpdateSuccessActionType|RequestClearActionType|ClearActionType;
 
 
 

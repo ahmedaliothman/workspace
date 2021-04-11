@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import SideMenu from "./SideMenu";
+import SideMenuAdminSettings from "./SideMenuAdminSettings";
 import AuthHeader from "./AuthHeader";
 import Header from './Header';
 import FullPageLoader from './FullPageLoader';
@@ -11,25 +11,23 @@ import { authenticateResponse } from '../../types/userInfo';
 import '../../assets/js/all';
 
 
-const Layout: FC = ({ children }) => {
+const LayoutAdminSettings: FC = ({ children }) => {
     const LookUpState = useSelector<RootState,RootState["lookUp"]>(state => state.lookUp);
     const userData = useSelector<RootState,RootState["login"]>(state => state.login);
-
     const {IsLoading} = LookUpState;
 
 
-    const userAuth = getLocalStorage("user", authenticateResponse);
 
     return (
         <>
          <Header />
             <div id="layoutSidenav">
-                <SideMenu />
+                <SideMenuAdminSettings />
                 <div id="layoutSidenav_content">              
-                    {userData.isLoggedIn && 
-                    <AuthHeader loggedIn={userAuth.isLoggedIn} 
-                    fullName={ userData?.userInfo?.employeeName!=undefined?userData?.userInfo?.employeeName:""}
-                    civilId = { userData?.userInfo?.civilId!=undefined?userData?.userInfo?.civilId:""} />}
+                    {(userData.isLoggedIn&&userData?.userInfo?.isAdmin )&& 
+                    <AuthHeader loggedIn={userData.isLoggedIn} 
+                    fullName={ userData.userInfo.employeeName}
+                    civilId = {userData.userInfo.civilId} />}
                     {children}
                 </div>
             </div>
@@ -38,4 +36,4 @@ const Layout: FC = ({ children }) => {
     )
 }
 
-export default Layout;
+export default LayoutAdminSettings;

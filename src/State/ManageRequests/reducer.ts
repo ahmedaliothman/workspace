@@ -28,8 +28,6 @@ const initialState:Types.IRequestsState={
 
                  case Types.RequestSuccess:
                     var Dstate=state;
-                   // console.log("reducer",actions.payload);
-
                     Dstate.IRequests=actions.payload
                     localStorage.setItem("IRequestsState", JSON.stringify({ ...state,IRequests:actions.payload ,SelectedRequest:initialState.SelectedRequest }));
                   return{

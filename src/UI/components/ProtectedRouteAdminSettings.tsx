@@ -4,9 +4,9 @@ import { Redirect, Route } from "react-router-dom";
 import { getLocalStorage } from "../../Services/utils/localStorageHelper"
 
 import { authenticateResponse } from "../../types/userInfo";
-import LayoutAdmin from "../components/LayoutAdmin";
+import LayoutAdminSettings from "../components/LayoutAdminSettings";
 
-const ProtectedRouteAdmin: React.ComponentType<any> = ({ component: Component, ...rest }) => {
+const ProtectedRouteAdminSettings: React.ComponentType<any> = ({ component: Component, ...rest }) => {
 	
 	const userAuth = getLocalStorage("user", authenticateResponse);
 	return (
@@ -15,7 +15,7 @@ const ProtectedRouteAdmin: React.ComponentType<any> = ({ component: Component, .
 			render={(props) => {
 				console.log("props", props);
 				if (userAuth.isLoggedIn===true) {
-					return <LayoutAdmin><Component {...props} /></LayoutAdmin>;
+					return <LayoutAdminSettings><Component {...props} /></LayoutAdminSettings>;
 				}
 				else {
 					return (<Redirect
@@ -30,4 +30,4 @@ const ProtectedRouteAdmin: React.ComponentType<any> = ({ component: Component, .
 	);
 };
 
-export default ProtectedRouteAdmin;
+export default ProtectedRouteAdminSettings;

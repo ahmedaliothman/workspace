@@ -27,10 +27,12 @@ import {
         case LOGIN_SUCCESS:
         return {
              ...state,
-             isLoggedIn:true,
+             isLoggedIn:action.payload.isLoggedIn,
              isLoading:false,
              userInfo:action.payload.userInfo,
-             jwtToken:action.payload.jwtToken
+             jwtToken:action.payload.jwtToken,
+             hasError:action.payload.hasError,
+             message:action.payload.message
 
             }
             case LOGOUT:
@@ -39,8 +41,9 @@ import {
                isLoggedIn:false,
                isLoading:false,
                jwtToken:undefined,
-               userInfo:undefined
-  
+               userInfo:undefined,
+               hasError:false,
+               message:""
               }    
       default:
         let localStorageData:any = localStorage.getItem('user');
@@ -52,6 +55,8 @@ import {
                     isLoading:false,
                     jwtToken:localStorageData.response.jwtToken,
                     userInfo:localStorageData.response.userInfo,
+                    hasError:localStorageData.hasError,
+                    message:localStorageData.message
                 }
             }
 

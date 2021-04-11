@@ -36,10 +36,19 @@ function* onUpdateRequest({ type,payload }: actionTypes.UpdateActionType) {
 }
 
 
+function* onClearAppRequest({ type }: actionTypes.RequestClearActionType) {
+  try {
+    yield put(actions.Clear());
+  } catch (error) {
+  }
+}
+
 function* watchOnPassportInfo() {
   yield takeEvery(actionTypes.CreateRequest, onPassportInfoRequest);
   yield takeEvery(actionTypes.FetchRequest, onFetchRequest);
   yield takeEvery(actionTypes.UpdateRequest, onUpdateRequest);
+  yield takeEvery(actionTypes.RequestClear, onClearAppRequest);
+
 }
 
 export default function* passportInfoSaga() {

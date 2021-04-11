@@ -112,6 +112,11 @@ const Login = () => {
 														<button className="btn btn-primary btn-user  shorooq " style={{ fontSize: '22px' }}> تسجيل الدخول الى النظام  </button>
 														<button  className="btn btn-info btn-user shorooq " style={{ fontSize: '22px' }} onClick={handleNewUser}> تسجيل مستخدم جديد </button>
 													</div>
+													{loginstate.hasError &&
+													<div className="alert alert-danger" role="alert">
+														يوجد خطا فى كلمه واسم المرور
+												</div>
+												}
 												</form>
 											</div>
 											<div className="col-lg-4 d-none d-lg-block text-center my-auto" style={{ backgroundColor: 'transparent' }}>
@@ -138,4 +143,3 @@ const Login = () => {
 };
 
 export default Login;
-
