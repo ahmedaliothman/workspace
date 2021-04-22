@@ -8,25 +8,9 @@ export interface IState extends INewAppState{
 
 export interface IStateApp {
     IState:IState,
-    isloading:boolean
-}
-
-export interface IApplicationStatusUpdateRequst {
-    applicationNumber:number,
-    userId:number,
-    statusId:number
-}
-
-export const ApplicationStatusRequst = 'NEWAPP/APPLICATIONSTATUSUPDATEREQUEST';
-export interface ApplicationStatusUpdateRequstType {
-    type: typeof ApplicationStatusRequst,
-    PAYLOAD:IApplicationStatusUpdateRequst
-
-}
-
-export const ApplicationStatus = 'NEWAPP/APPLICATIONSTATUSUPDATE';
-export interface ApplicationStatusUpdateType {
-    type: typeof ApplicationStatus
+    isloading:boolean,
+    hasError?:boolean,
+    message?:string
 }
 
 

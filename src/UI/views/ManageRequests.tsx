@@ -6,6 +6,7 @@ import Layout from "../components/Layout";
 import NoData from "../views/NoData";
 import { IRequests, IRequestsState } from '../../State/ManageRequests/types';
 import * as actions from "./../../State/ManageRequests/actions"
+import * as Types from "./../../State/ManageRequests/types"
 export default function ManageRequests () {
 
      const RequestsState:IRequestsState = useSelector<RootState,RootState["manageRequest"]>(state => state.manageRequest);
@@ -61,10 +62,13 @@ let columnsBootStrap_: columnsBootStrap={columns:[],data:null};
   ];
   columnsBootStrap_.data=IRequests;
   React.useEffect(() => {
-    console.log("userId",userInfo?.userId);
-      //dispatch(actions.CreateRequest(userInfo?.userId));
+    dispatch({type:Types.Clear});
       dispatch(actions.CreateRequest(userInfo?.userId));
-      console.log(IRequests);
+      return () => {
+        dispatch({type:Types.Clear});
+      };
+
+      
    }, []);
   return (
     <div style={{marginBottom: '50%'}}>

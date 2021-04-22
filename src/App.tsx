@@ -19,10 +19,12 @@ import Agreament from "./UI/views/Agreament"
 import Result from "./UI/views/Result"
 ////// Admin Imports 
 import InwardApplication from "./UI/views/Admin/InwardApplication";
+import OutwardApplication from "./UI/views/Admin/OutwardApplication";
 import NewAppAdmin   from "./UI/views/Admin/NewApp";
 import PersonalInfoAdmin from "./UI/views/Admin/PersonalInfo";
 import PassportInfoAdmin from "./UI/views/Admin/PassportInfo";
-
+import EditRow from "./UI/components/EditRow";
+import FileAttachmentsAdmin from "./UI/views/Admin/FileAttachments";
 
 
 
@@ -47,13 +49,16 @@ function App() {
 						<ProtectedRoute exact path="/fileAttachements" component={FileAttachments} />
 						<ProtectedRoute exact path="/Agreament" component={Agreament} />
 						<ProtectedRoute exact path="/result" component={Result} />
+						<ProtectedRoute exact path="/EditRow" component={EditRow} />
 						
                     /////admin routing 						
 						<ProtectedRoute exact path="/admin/personalInfo" component={PersonalInfoAdmin} />
 						<ProtectedRoute exact path="/admin/passportInfo" component={PassportInfoAdmin} />
 						<ProtectedRoute exact path="/admin/newApp" component={NewAppAdmin} />
 						<ProtectedRoute exact path="/admin/InwardApplication" component={InwardApplication} />
-
+						<ProtectedRoute exact path="/admin/OutwardApplication" component={OutwardApplication} />
+						<ProtectedRoute exact path="/admin/FileAttachments" component={FileAttachmentsAdmin} />
+						
 						{/* <Route exact path="/notfound" component={NotFound} />
 						<Redirect to="/notfound" /> */}
 					</Switch>

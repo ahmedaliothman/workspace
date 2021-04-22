@@ -8,11 +8,16 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import {useDispatch} from "react-redux";
 import PrintProvider, { Print, NoPrint } from 'react-easy-print';
 import {getUserApplicationsByApplicationNumber,loadingRequest} from "../../State/newApp"
+import {ApplicationStatusUpdateRequst,CreateRequestAdmin} from "../../State/ManageRequests/actions"
+import {IApplicationStatusUpdateRequst} from "../../State/ManageRequests/types"
 import { useHistory } from "react-router-dom";
 import {ClearRequest} from "../../State/newApp"
 import {RequestClear as RequestClearPersonalInfo} from "../../State/personalInfo"
 import {RequestClear as RequestClearPassportInfo} from "../../State/passportInfo"
 import {RequestClear as RequestClearattachmentDocuments} from "../../State/attachmentDocuments"
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
 
 export interface TableBootStrapTablecolumn {
 
@@ -37,10 +42,37 @@ export type handleRowFunctions = {
 export const TableBootStrap = forwardRef<handleRowFunctions, columnsBootStrap>(({columns,data}, ref) => {
   const [show, setShow] = useState(true);
   const [SelectedObject, setSelectedObject] = useState<any>(null);
-   data = React.useMemo<any>(() => data, [])
+    //data = React.useMemo<any>(() => data, [])
    const dispatch =useDispatch();
   const history = useHistory();
+  const submitAlert =(message:string,type:number,applicationNumber:number,userId:number)=> {
+    let input:IApplicationStatusUpdateRequst={
+    applicationNumber:applicationNumber,
+    statusId:type,
+    userId:userId
+    }
+    confirmAlert({
+        customUI: ({onClose}) => {
+          return (
+            <div style={{textAlign: 'center', width: 500,borderRadius:10, padding: 40, background: '#005da3', boxShadow: '0 20px 75px rgb(0 0 0 / 23%)', color: '#fff'}} >
+              <h4>هل أنت متأكد من {message}?</h4>
+              <button style={{margin:20 ,width:50,borderRadius:10,fontSize:20 ,background:'white'}} onClick={() =>  {submit(input);onClose()}}>نعم </button>
+              <button style={{margin:20 ,width:50,borderRadius:10 ,fontSize:20,background:'white'}} onClick={()=> {onClose()}}>لا</button> 
+            </div>
+          );
+        }
+      });
+     
 
+  }
+  
+  function submit(input:IApplicationStatusUpdateRequst) {
+   
+      dispatch(ApplicationStatusUpdateRequst(input));
+      dispatch(CreateRequestAdmin());
+  
+
+  }
   //const dataapi= React.useMemo<any>(() => data1, [])
   console.log(data);
   //console.log(dataapi);
@@ -66,23 +98,18 @@ export const TableBootStrap = forwardRef<handleRowFunctions, columnsBootStrap>((
       history.push("/admin/newApp");
     },
     SubmitRow(row: any) {
-
-     
-      history.push("/admin/newApp");
+      submitAlert("اعتماد المعاملة",1,row.applicationNumber,row.userId);
     },
     RejectRow(row: any) {
+      submitAlert("رفض المعاملة",2,row.applicationNumber,row.userId);
 
-      dispatch(loadingRequest(true));
-      dispatch(getUserApplicationsByApplicationNumber(row.applicationNumber));
-      history.push("/admin/newApp");
     },
     ReturnRow(row: any) {
+      //submitAlert("إرجاع المعاملة",3,row.applicationNumber,row.userId);
+    history.push({ pathname: '/EditRow', state:row });
 
-      dispatch(loadingRequest(true));
-      dispatch(getUserApplicationsByApplicationNumber(row.applicationNumber));
-      history.push("/admin/newApp");
+      
     }
-
   }));
   const PopUp = (row: any) => {
     //console.log("popup", row);
@@ -201,7 +228,7 @@ export const TableBootStrap = forwardRef<handleRowFunctions, columnsBootStrap>((
   // Render the UI for your table
   return (<>
 
-    <main className="login-bg">
+    <main  className="login-bg">
       <div className="container-fluid" style={{ marginBottom: 10 }}>
         <div className="row justify-content-center">
           <div className="col-xl-12 col-lg-12 col-md-12">
@@ -231,7 +258,6 @@ export const TableBootStrap = forwardRef<handleRowFunctions, columnsBootStrap>((
         </div>
       </div>
     </main>
-
 
   </>
   )

@@ -89,12 +89,16 @@ const PersonalInfo = () => {
 
   useEffect(() => {
 
-    setValue("employeeNameArabic", stateData.employeeNameArabic);
-    setValue("employeeNameEnglish", stateData.employeeNameEnglish);
-    setValue("mobileNumber", stateData.mobileNumber);
-    setValue("employeeNumber", stateData.employeeNumber);
-    setValue("selectedJobTitle", jobTitleOptions.find(j => j.value === stateData.jobTitle));
-    setValue("selectedDept", deptOptions.find(j => j.value === stateData.department));
+    if (stateData.id!== undefined)
+    {
+      setValue("employeeNameArabic", stateData.employeeNameArabic);
+      setValue("employeeNameEnglish", stateData.employeeNameEnglish);
+      setValue("mobileNumber", stateData.mobileNumber);
+      setValue("employeeNumber", stateData.employeeNumber);
+      setValue("selectedJobTitle", jobTitleOptions.find(j => j.value === stateData.jobTitle));
+      setValue("selectedDept", deptOptions.find(j => j.value === stateData.department));
+    }
+ 
     
   }, [stateData]);
 

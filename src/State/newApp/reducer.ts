@@ -11,7 +11,10 @@ import * as Types from './types';
    stepNo:undefined,
    userId:undefined
   },
-  isloading:false
+  isloading:false,
+  hasError:false,
+  message:""
+
 }
 
 
@@ -19,13 +22,15 @@ import * as Types from './types';
     action: Types.NewAppActionsTypes):Types.IStateApp{
     switch (action.type) {
 
-
+       
       case Types.Clear:
         localStorage.setItem("newApp",JSON.stringify({...initialState}));
 
         return {
           ...initialState
         }
+           
+    
       case Types.Loading:
         localStorage.setItem("newApp", JSON.stringify({ ...state,isloading:action.payload }));
 

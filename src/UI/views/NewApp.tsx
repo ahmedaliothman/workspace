@@ -26,7 +26,7 @@ const NewApp: React.FunctionComponent<INewAppState> =() => {
   let dispatch = useDispatch();
 
   useEffect(() => {
-       if (newAppState.IState.applicationNumber===undefined && newAppState.isloading==false )
+       if (newAppState.IState?.applicationNumber===undefined && newAppState.isloading==false )
        {
           dispatch(getFetchIncompleteRequest(userData.userInfo?.userId as number));
        }
@@ -43,12 +43,12 @@ const NewApp: React.FunctionComponent<INewAppState> =() => {
 
   useEffect(() => {
     console.log("in useEffect newAppState.applicationTypeId,AppTypes");
-    if ( newAppState.IState.applicationStatusId==StatusType.Creation||newAppState.IState.applicationStatusId==StatusType.Return)
+    if ( newAppState.IState?.applicationStatusId==StatusType.Creation||newAppState.IState?.applicationStatusId==StatusType.Return)
     {
-      let selectedObj = AppTypes?.find(a=>a.value===newAppState.IState.applicationTypeId?.toString());
+      let selectedObj = AppTypes?.find(a=>a.value===newAppState.IState?.applicationTypeId?.toString());
       setappType(selectedObj);
     }
-    if (( newAppState.IState.applicationStatusId==StatusType.Creation||newAppState.IState.applicationStatusId==StatusType.Return) && newAppState.isloading==false )
+    if (( newAppState.IState?.applicationStatusId==StatusType.Creation||newAppState.IState?.applicationStatusId==StatusType.Return) && newAppState.isloading==false )
     {
       setLablelName("  استكمال اخر  معاملة ");
    }
@@ -59,13 +59,13 @@ const NewApp: React.FunctionComponent<INewAppState> =() => {
 
     return () => {
     }
-  }, [newAppState.IState.applicationTypeId,AppTypes]);
+  }, [newAppState.IState?.applicationTypeId,AppTypes]);
 
   
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		 e.preventDefault();
      newAppState.IState.applicationTypeId = Number(appType?.value);
-     if (newAppState.IState.applicationNumber===undefined||newAppState.IState.applicationNumber===0)
+     if (newAppState.IState?.applicationNumber===undefined||newAppState.IState?.applicationNumber===0)
      {
       newAppState.IState.applicationDate = new Date();
       newAppState.IState.userId=userData.userInfo?.userId;

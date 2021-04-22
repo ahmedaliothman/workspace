@@ -23,7 +23,7 @@ export interface ClearActionType {
 
 
 
-export const CreateRequest = 'PERSONALINFO/CLEAR';
+export const CreateRequest = 'PERSONALINFO/CREATE';
 export interface CreateRequestActionType {
     type: typeof CreateRequest,
     payload:IState
